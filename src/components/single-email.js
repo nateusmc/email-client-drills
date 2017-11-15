@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import './single-email.css';
 
 export function SingleEmail(props) {
@@ -18,6 +17,14 @@ export function SingleEmail(props) {
     );
 }
 
-const mapStateToProps = (state, props) => state[props.folderId].emails[props.emailId];
+const mapStateToProps = (state, props) => {
+    const folderId = props.match.params.folderId;
+    const emailId = props.match.params.emailId;
+    const email = state[folderId].emails[emailId];
+    return Object.assign({}, email, {
+        folderId,
+        emailId
+    });
+};
 
 export default connect(mapStateToProps)(SingleEmail);
